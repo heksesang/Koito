@@ -78,6 +78,12 @@ func LbzRelayToken() string {
 	return globalConfig.lbzRelayToken
 }
 
+func LbzRelayTokenPath() string {
+	lock.RLock()
+	defer lock.RUnlock()
+	return globalConfig.lbzRelayTokenPath
+}
+
 func DefaultPassword() string {
 	lock.RLock()
 	defer lock.RUnlock()

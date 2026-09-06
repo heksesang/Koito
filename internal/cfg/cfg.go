@@ -29,6 +29,7 @@ const (
 	ENABLE_LBZ_RELAY_ENV           = "KOITO_ENABLE_LBZ_RELAY"
 	LBZ_RELAY_URL_ENV              = "KOITO_LBZ_RELAY_URL"
 	LBZ_RELAY_TOKEN_ENV            = "KOITO_LBZ_RELAY_TOKEN"
+	LBZ_RELAY_TOKEN_PATH_ENV       = "KOITO_LBZ_RELAY_TOKEN_PATH"
 	CONFIG_DIR_ENV                 = "KOITO_CONFIG_DIR"
 	DEFAULT_USERNAME_ENV           = "KOITO_DEFAULT_USERNAME"
 	DEFAULT_PASSWORD_ENV           = "KOITO_DEFAULT_PASSWORD"
@@ -66,6 +67,7 @@ type config struct {
 	lbzRelayEnabled        bool
 	lbzRelayUrl            string
 	lbzRelayToken          string
+	lbzRelayTokenPath      string
 	defaultPw              string
 	defaultUsername        string
 	defaultTheme           string
@@ -145,6 +147,7 @@ func loadConfig(getenv func(string) string, version string) (*config, error) {
 	if parseBool(getenv(ENABLE_LBZ_RELAY_ENV)) {
 		cfg.lbzRelayEnabled = true
 		cfg.lbzRelayToken = getenv(LBZ_RELAY_TOKEN_ENV)
+		cfg.lbzRelayTokenPath = getenv(LBZ_RELAY_TOKEN_PATH_ENV)
 		cfg.lbzRelayUrl = getenv(LBZ_RELAY_URL_ENV)
 	}
 

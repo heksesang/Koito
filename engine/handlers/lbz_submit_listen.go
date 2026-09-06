@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gabehf/koito/engine/middleware"
@@ -266,8 +267,21 @@ func doLbzRelay(requestBytes []byte, l *zerolog.Logger) {
 		l.Err(err).Msg("doLbzRelay: Failed to build ListenBrainz relay request")
 		return
 	}
-	req.Header.Add("Authorization", "Token "+cfg.LbzRelayToken())
+
+	if cfg.LbzRelayTokenPath() != "" {
+		if lbzRelayToken, err := os.ReadFile(cfg.LbzRelayTokenPath()); err != nil {
+			l.Err(err).Msg("Failed to read authorization token for ListenBrainz relay")
+			return
+		} else {
+			req.Header.Add("Authorization", "Token "+string(lbzRelayToken))
+		}
+	} else {
+		req.Header.Add("Authorization", "Token "+cfg.LbzRelayToken())
+	}
+
 	req.Header.Add("Content-Type", "application/json")
+
+	l.Info().Msg(req.Header.Get("Authorization"))
 
 	client := &http.Client{
 		Timeout: 30 * time.Second,

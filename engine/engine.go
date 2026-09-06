@@ -203,7 +203,7 @@ func Run(
 		l.Info().Msgf("Engine: CORS policy: Allowing origins: %v", cfg.AllowedOrigins())
 	}
 
-	if cfg.LbzRelayEnabled() && (cfg.LbzRelayUrl() == "" || cfg.LbzRelayToken() == "") {
+	if cfg.LbzRelayEnabled() && (cfg.LbzRelayUrl() == "" || (cfg.LbzRelayToken() == "" && cfg.LbzRelayTokenPath() == "")) {
 		l.Warn().Msg("You have enabled ListenBrainz relay, but either the URL or token is missing. Double check your configuration to make sure it is correct!")
 	}
 
